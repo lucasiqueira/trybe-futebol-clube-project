@@ -1,3 +1,7 @@
 import TeamModel from './team.model';
+import UserModel from './user.model';
 
-export default TeamModel;
+export {
+  TeamModel,
+  UserModel,
+};
