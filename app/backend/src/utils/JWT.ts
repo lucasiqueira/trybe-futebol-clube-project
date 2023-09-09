@@ -8,8 +8,9 @@ export default class JWT {
     return sign(payload, this._secret);
   }
 
-  verifyToken(token: string): Payload | null {
+  verifyToken(bearer: string): Payload | null {
     try {
+      const token = bearer.split(' ')[1] || bearer;
       return verify(token, this._secret) as Payload;
     } catch (error) {
       return null;

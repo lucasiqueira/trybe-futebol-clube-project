@@ -27,8 +27,7 @@ export default class UserService {
   }
 
   public async getRole(bearer: string): Promise<ServiceResponse<Role>> {
-    const token = bearer.split(' ')[1] || bearer;
-    const payload = this.jwt.verifyToken(token);
+    const payload = this.jwt.verifyToken(bearer);
 
     if (!payload) {
       return { status: 'UNAUTHORIZED', data: { message: 'Token must be a valid token' } };
