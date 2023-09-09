@@ -1,5 +1,5 @@
 import { sign, verify } from 'jsonwebtoken';
-import { Payload } from '../type/Payload';
+import { Payload } from '../types/Payload';
 
 export default class JWT {
   private _secret: string = process.env.JWT_SECRET || 'secret';
@@ -9,6 +9,10 @@ export default class JWT {
   }
 
   verifyToken(token: string): Payload | null {
-    return verify(token, this._secret) as Payload;
+    try {
+      return verify(token, this._secret) as Payload;
+    } catch (error) {
+      return null;
+    }
   }
 }
