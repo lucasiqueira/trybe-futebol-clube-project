@@ -52,14 +52,14 @@ SequelizeMatch.init({
   },
 }, {
   sequelize: db,
-  modelName: 'trybeEval',
+  modelName: 'matches',
   timestamps: false,
 });
 
-SequelizeTeam.belongsTo(SequelizeMatch, { foreignKey: 'id', as: 'homeTeamId' });
-SequelizeTeam.belongsTo(SequelizeMatch, { foreignKey: 'id', as: 'awayTeamId' });
+SequelizeMatch.belongsTo(SequelizeTeam, { foreignKey: 'homeTeamId', as: 'homeTeam' });
+SequelizeMatch.belongsTo(SequelizeTeam, { foreignKey: 'awayTeamId', as: 'awayTeam' });
 
-SequelizeMatch.hasMany(SequelizeTeam, { foreignKey: 'id', as: 'homeTeamId' });
-SequelizeMatch.hasMany(SequelizeTeam, { foreignKey: 'id', as: 'awayTeamId' });
+SequelizeMatch.hasMany(SequelizeTeam, { foreignKey: 'homeTeamId', as: 'homeMatch' });
+SequelizeMatch.hasMany(SequelizeTeam, { foreignKey: 'awayTeamId', as: 'awayMatch' });
 
 export default SequelizeMatch;
