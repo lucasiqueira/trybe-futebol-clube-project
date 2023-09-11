@@ -29,4 +29,17 @@ export default class MatchModel implements IMatchModel {
     if (inProgress === 'true') return { inProgress: true };
     if (inProgress === 'false') return { inProgress: false };
   }
+
+  async findById(id: number): Promise<IMatch | null> {
+    const data = await this.model.findByPk(id);
+    if (!data) return null;
+    return data;
+  }
+
+  async patchMatch(id: number): Promise<boolean> {
+    const matchData = await this.findById(id);
+    if (!matchData) return false;
+    await this.model.update({ inProgress: false }, { where: { id } });
+    return true;
+  }
 }

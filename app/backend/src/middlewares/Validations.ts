@@ -1,5 +1,6 @@
 import { Request, NextFunction, Response } from 'express';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
+import jwt from '../utils/JWT';
 
 export default class Validations {
   static validateLogin(req: Request, res: Response, next: NextFunction): Response | void {
@@ -28,6 +29,13 @@ export default class Validations {
     if (!authorization) {
       return res.status(mapStatusHTTP('UNAUTHORIZED'))
         .json({ message: 'Token not found' });
+    }
+
+    const payload = jwt.verifyToken(authorization);
+
+    if (!payload) {
+      return res.status(mapStatusHTTP('UNAUTHORIZED'))
+        .json({ message: 'Token must be a valid token' });
     }
 
     next();

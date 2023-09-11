@@ -2,16 +2,16 @@ import { sign, verify } from 'jsonwebtoken';
 import { Payload } from '../types/Payload';
 
 export default class JWT {
-  private _secret: string = process.env.JWT_SECRET || 'secret';
+  private static _secret: string = process.env.JWT_SECRET || 'secret';
 
-  createToken(payload: Payload): string {
-    return sign(payload, this._secret);
+  static createToken(payload: Payload): string {
+    return sign(payload, JWT._secret);
   }
 
-  verifyToken(bearer: string): Payload | null {
+  static verifyToken(bearer: string): Payload | null {
     try {
       const token = bearer.split(' ')[1] || bearer;
-      return verify(token, this._secret) as Payload;
+      return verify(token, JWT._secret) as Payload;
     } catch (error) {
       return null;
     }
