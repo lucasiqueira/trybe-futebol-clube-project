@@ -1,9 +1,10 @@
-import { GoalsData } from '../types/GoalsData';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 
 import IMatch from '../Interfaces/IMatch';
 import IMatchModel from '../Interfaces/IMatchModel';
+import IMatchInsert from '../Interfaces/IMatchInsert';
+import { GoalsData } from '../types/GoalsData';
 
 export default class MatchModel implements IMatchModel {
   private model = SequelizeMatch;
@@ -49,5 +50,11 @@ export default class MatchModel implements IMatchModel {
     if (!matchData) return false;
     await this.model.update(goalsData, { where: { id } });
     return true;
+  }
+
+  async createMatch(matchData: IMatchInsert): Promise<IMatch> {
+    const data = await this.model.create({ ...matchData, inProgress: true });
+    console.log(data);
+    return data;
   }
 }
