@@ -53,6 +53,9 @@ export default class MatchModel implements IMatchModel {
   }
 
   async createMatch(matchData: IMatchInsert): Promise<IMatch> {
+    const homeTeam = await this.findById(matchData.homeTeamId);
+    const awayTeam = await this.findById(matchData.awayTeamId);
+    if (!homeTeam || !awayTeam) throw new Error('Team not found');
     const data = await this.model.create({ ...matchData, inProgress: true });
     console.log(data);
     return data;

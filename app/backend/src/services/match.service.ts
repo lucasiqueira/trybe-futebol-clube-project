@@ -30,7 +30,11 @@ export default class MatchService {
   }
 
   public async createMatch(matchData: IMatchInsert) {
-    const data = await this.matchModel.createMatch(matchData);
-    return { status: 'CREATED', data };
+    try {
+      const data = await this.matchModel.createMatch(matchData);
+      return { status: 'CREATED', data };
+    } catch (error) {
+      return { status: 'NOT_FOUND', data: { message: 'There is no team with such id!' } };
+    }
   }
 }

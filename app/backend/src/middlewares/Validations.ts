@@ -40,4 +40,15 @@ export default class Validations {
 
     next();
   }
+
+  static validateMatch(req: Request, res: Response, next: NextFunction): Response | void {
+    const { homeTeamId, awayTeamId } = req.body;
+
+    if (homeTeamId === awayTeamId) {
+      return res.status(mapStatusHTTP('UNPROCESSABLE_ENTITY'))
+        .json({ message: 'It is not possible to create a match with two equal teams' });
+    }
+
+    next();
+  }
 }
