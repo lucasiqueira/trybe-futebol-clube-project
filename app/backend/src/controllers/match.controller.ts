@@ -18,4 +18,11 @@ export default class MatchController {
     const { status, data } = await this.matchService.patchMatch(Number(id));
     res.status(mapStatusHTTP(status)).json(data);
   }
+
+  public async patchGoals(req: Request, res: Response) {
+    const { id } = req.params;
+    const goalsData = req.body;
+    const { status, data } = await this.matchService.patchGoals(Number(id), goalsData);
+    res.status(mapStatusHTTP(status)).json(data);
+  }
 }

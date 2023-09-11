@@ -1,3 +1,4 @@
+import { GoalsData } from '../types/GoalsData';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 
@@ -40,6 +41,13 @@ export default class MatchModel implements IMatchModel {
     const matchData = await this.findById(id);
     if (!matchData) return false;
     await this.model.update({ inProgress: false }, { where: { id } });
+    return true;
+  }
+
+  async patchGoals(id: number, goalsData: GoalsData): Promise<boolean> {
+    const matchData = await this.findById(id);
+    if (!matchData) return false;
+    await this.model.update(goalsData, { where: { id } });
     return true;
   }
 }
