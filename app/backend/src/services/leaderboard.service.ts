@@ -1,5 +1,7 @@
 import { MatchModel, TeamModel } from '../models';
 import LeaderboardUtils from '../utils/leaderboard.utils';
+import { ServiceResponse } from '../Interfaces/ServiceResponse';
+import IHomeLeaderboard from '../Interfaces/IHomeLeaderboard';
 
 export default class LeaderboardService {
   constructor(
@@ -7,10 +9,10 @@ export default class LeaderboardService {
     private teamModel = new TeamModel(),
   ) {}
 
-  public async getLeaderboard() {
+  public async getLeaderboard(url: string): Promise<ServiceResponse<IHomeLeaderboard[]>> {
     const teams = await this.teamModel.findAll();
     const matches = await this.matchModel.findAll();
-    const leaderboardUtils = new LeaderboardUtils(teams, matches);
+    const leaderboardUtils = new LeaderboardUtils(teams, matches, url);
     const results = leaderboardUtils.getResults();
     return { status: 'SUCCESSFUL', data: results };
   }
